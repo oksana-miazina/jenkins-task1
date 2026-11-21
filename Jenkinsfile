@@ -1,17 +1,22 @@
 pipeline {
     agent any
     environment {
-      // TODO
+      APP_PORT = 9090
     }
     stages {
         stage('Build') {
             steps {
-                // TODO
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
         stage('Unit Test') {
             steps {
-                 // TODO
+                sh 'mvn test' 
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
